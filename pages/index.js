@@ -1,4 +1,3 @@
-import { Button } from "@blueprintjs/core";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import NavBar from "../components/Navbar.tsx";
@@ -14,9 +13,7 @@ export default function Home() {
 
       <NavBar />
 
-      <main className={styles.main}>
-        <Button intent="success" text="button content" />
-      </main>
+      <main className={styles.main}></main>
     </div>
   );
 }
