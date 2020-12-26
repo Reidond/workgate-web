@@ -10,9 +10,8 @@ interface FunctionsSelectProps {}
 
 const FunctionsSelect: FunctionComponent<FunctionsSelectProps> = (props) => {
   const router = useRouter();
-  const routerPathnameSplit = router.pathname.split("/");
-  const myFunctionName = routerPathnameSplit[routerPathnameSplit.length - 1];
-  const myFunctionFromPath = functions.find((v) => v.name === myFunctionName);
+  const { name } = router.query;
+  const myFunctionFromPath = functions.find((v) => v.name === name);
   const [myFunction, setMyFunction] = useState(
     myFunctionFromPath ? myFunctionFromPath : null
   );
@@ -28,7 +27,6 @@ const FunctionsSelect: FunctionComponent<FunctionsSelectProps> = (props) => {
       <MenuItem
         active={modifiers.active}
         key={myFunction.name}
-        label={myFunction.endpoint()}
         onClick={handleClick}
         text={myFunction.prettyName}
       />

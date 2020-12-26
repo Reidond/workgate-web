@@ -1,40 +1,46 @@
 import { Alignment, Navbar } from "@blueprintjs/core";
 import { useRouter } from "next/router";
 import { FunctionComponent } from "react";
+import { functions } from "../helpers/functionsConfig";
 import styles from "../styles/Home.module.css";
 import { FunctionsSelect } from "./FunctionsSelect";
+import Link from "next/link";
 
 interface INavBarProps {}
 
 const NavBar: FunctionComponent<INavBarProps> = (props) => {
   const router = useRouter();
-  const routerPathnameSplit = router.pathname.split("/");
-  const myFunctionName = routerPathnameSplit[routerPathnameSplit.length - 1];
+  const { name } = router.query;
+  const myFunctionFromPath = functions.find((v) => v.name === name);
 
   return (
     <Navbar>
       <Navbar.Group align={Alignment.LEFT}>
         <Navbar.Heading>
-          <div
-            style={{
-              display: "inline-flex",
-              gap: "10px",
-              alignItems: "center",
-              justifyItems: "center",
-            }}
-          >
-            <strong>Workgate</strong>
-            <img
-              src="/favicon.svg"
-              alt="Workgate Logo"
-              className={styles.logo}
-            ></img>
-          </div>
+          <Link href="/">
+            <a
+              style={{
+                display: "inline-flex",
+                gap: "10px",
+                alignItems: "center",
+                justifyItems: "center",
+              }}
+            >
+              <strong>Workgate</strong>
+              <img
+                src="/favicon.svg"
+                alt="Workgate Logo"
+                className={styles.logo}
+              ></img>
+            </a>
+          </Link>
         </Navbar.Heading>
         <Navbar.Divider />
       </Navbar.Group>
       <Navbar.Group>
-        <span>{myFunctionName || "Виберіть функцію із списку"}</span>
+        <span>
+          {myFunctionFromPath?.prettyName || "Виберіть функцію із списку"}
+        </span>
       </Navbar.Group>
       <Navbar.Group align={Alignment.RIGHT}>
         <FunctionsSelect />

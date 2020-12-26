@@ -14,26 +14,31 @@ interface MyFunction<T, E> {
 }
 
 export type MyFunctionDefault = MyFunction<String | Number, string>;
+export type InputDefault = Input<String | Number>;
 
 export const functions: MyFunctionDefault[] = [
   {
     name: "gbellmf",
     prettyName: "Колокоподібна функція належності",
-    endpoint: functionsApi`/gbellmf`,
+    endpoint: functionsApi`/${"name"}`,
     inputs: [
       {
+        expr: "\\overline{x}",
         key: "x",
         default: "0:10",
       },
       {
+        expr: "a_j",
         key: "a",
         default: 2,
       },
       {
+        expr: "b_j",
         key: "b",
         default: 4,
       },
       {
+        expr: "c",
         key: "c",
         default: 6,
       },
