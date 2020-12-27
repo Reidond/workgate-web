@@ -108,7 +108,11 @@ const InputArray: FunctionComponent<InputArrayProps> = ({
                 </FormGroup>
               );
             })}
-            <Button type="submit" disabled={isSubmitting}>
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              intent={Intent.PRIMARY}
+            >
               Надіслати
             </Button>
           </Form>
