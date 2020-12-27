@@ -1,7 +1,7 @@
 const baseURL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3001"
-    : "https://cors-anywhere.herokuapp.com/https://workgate-service.herokuapp.com";
+    : "https://workgate-service.herokuapp.com";
 
 const createWithHost = (host: string) => (
   strings: TemplateStringsArray,
