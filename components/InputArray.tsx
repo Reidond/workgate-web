@@ -23,7 +23,7 @@ const type = (input: InputDefault): InputArrayDOMType => {
   if (typeof input.default === "number") {
     return {
       domType: "number",
-      as: NumericInput,
+      as: InputGroup,
       validation: Yup.number().required(),
     };
   }
@@ -87,7 +87,7 @@ const InputArray: FunctionComponent<InputArrayProps> = ({
             });
         }}
       >
-        {({ isSubmitting }) => (
+        {({ handleChange, isSubmitting }) => (
           <Form>
             {inputs.map((i) => {
               return (
@@ -104,6 +104,7 @@ const InputArray: FunctionComponent<InputArrayProps> = ({
                     name={i.key}
                     as={type(i).as}
                     fill={true}
+                    type={type(i).domType}
                   />
                 </FormGroup>
               );
