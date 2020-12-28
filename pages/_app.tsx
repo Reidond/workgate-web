@@ -4,7 +4,7 @@ import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 import "@blueprintjs/select/lib/css/blueprint-select.css";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import NavBar from "../components/Navbar.tsx";
+import NavBar from "../components/Navbar";
 import "katex/dist/katex.min.css";
 import "../styles/globals.css";
 
