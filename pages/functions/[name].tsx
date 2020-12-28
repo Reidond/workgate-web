@@ -1,9 +1,11 @@
-import { functions, MyFunctionDefault } from "../../helpers/functionsConfig";
+import {
+  functions,
+  MyFunctionDefault,
+} from "../../src/helpers/functionsConfig";
 import { FunctionComponent, ReactElement, useState } from "react";
-import { InputArray } from "../../components/InputArray";
-import { PanelStack } from "@blueprintjs/core";
-import cn from "classnames";
-import PreviewPanel from "../../components/PreviewPanel";
+import { InputArray } from "../../src/components/InputArray";
+import PreviewPanel from "../../src/components/PreviewPanel";
+import { Grid, Container, Skeleton } from "@chakra-ui/react";
 
 interface PreviewPanelSkeletonProps {
   loading: boolean;
@@ -14,7 +16,11 @@ const PreviewPanelSkeleton: FunctionComponent<PreviewPanelSkeletonProps> = ({
   content,
 }) => {
   if (loading) {
-    return <div style={{ height: "430px" }} className="bp3-skeleton"></div>;
+    return (
+      <Skeleton>
+        <div style={{ height: "430px" }}></div>
+      </Skeleton>
+    );
   }
   return content;
 };
@@ -27,12 +33,8 @@ const Func: FunctionComponent<FuncProps> = ({ func }) => {
   let [loading, setLoading] = useState(false);
 
   return (
-    <>
-      <section
-        className={cn("panel-container", {
-          "panel-container--one-col": !preview,
-        })}
-      >
+    <Container maxW="100%">
+      <Grid templateColumns="repeat(2, 1fr)" gap={6}>
         <InputArray
           endpoint={func.endpoint}
           inputs={func.inputs}
@@ -42,41 +44,11 @@ const Func: FunctionComponent<FuncProps> = ({ func }) => {
         {preview && (
           <PreviewPanelSkeleton
             loading={loading}
-            content={
-              <PanelStack
-                className={cn("bp3-elevation-1", "panel-stack")}
-                initialPanel={{
-                  component: PreviewPanel,
-                  title: "Preview",
-                  props: { preview, name: func.name },
-                }}
-              />
-            }
+            content={<PreviewPanel preview={preview} name={func.name} />}
           />
         )}
-      </section>
-      <style jsx>{`
-        .panel-container {
-          display: grid;
-          grid-template-rows: auto;
-          grid-template-columns: 1fr 1fr;
-          gap: var(--bs-gutter-x, 0.75rem);
-          padding: var(--bs-gutter-x, 0.75rem) 0;
-        }
-        .panel-container--one-col {
-          grid-template-columns: 1fr;
-        }
-      `}</style>
-      <style jsx global>{`
-        .panel-stack {
-          height: max-content;
-        }
-
-        .panel-stack .bp3-panel-stack-view {
-          position: unset;
-        }
-      `}</style>
-    </>
+      </Grid>
+    </Container>
   );
 };
 

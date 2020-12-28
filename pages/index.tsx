@@ -1,5 +1,5 @@
-import styles from "../styles/Home.module.css";
+import { Container } from "@chakra-ui/react";
 
 export default function Home() {
-  return <section className={styles.main}></section>;
+  return <Container></Container>;
 }

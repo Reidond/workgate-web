@@ -1,18 +1,34 @@
 import { ComponentType, Dispatch, FunctionComponent } from "react";
 import { InputDefault } from "../helpers/functionsConfig";
-import {
-  Button,
-  Card,
-  Elevation,
-  FormGroup,
-  InputGroup,
-  Intent,
-  NumericInput,
-} from "@blueprintjs/core";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { InlineMath } from "react-katex";
+import {
+  Box,
+  Input,
+  Button,
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+} from "@chakra-ui/react";
+
+const InputGroup = (props) => {
+  return (
+    <NumberInput {...props}>
+      <NumberInputField />
+      <NumberInputStepper>
+        <NumberIncrementStepper />
+        <NumberDecrementStepper />
+      </NumberInputStepper>
+    </NumberInput>
+  );
+};
 
 interface InputArrayDOMType {
   domType: string;
@@ -30,13 +46,13 @@ const type = (input: InputDefault): InputArrayDOMType => {
   if (typeof input.default === "string") {
     return {
       domType: "text",
-      as: InputGroup,
+      as: Input,
       validation: Yup.string().required(),
     };
   }
   return {
     domType: "text",
-    as: InputGroup,
+    as: Input,
     validation: Yup.number().required(),
   };
 };
@@ -67,8 +83,11 @@ const InputArray: FunctionComponent<InputArrayProps> = ({
   const schema = Yup.object().shape(shape);
 
   return (
-    <Card
-      elevation={Elevation.ONE}
+    <Box
+      padding="6"
+      boxShadow="lg"
+      borderWidth="1px"
+      borderRadius="lg"
       style={{
         height: "max-content",
       }}
@@ -87,39 +106,40 @@ const InputArray: FunctionComponent<InputArrayProps> = ({
             });
         }}
       >
-        {({ handleChange, isSubmitting }) => (
+        {({ isSubmitting }) => (
           <Form>
             {inputs.map((i) => {
               return (
-                <FormGroup
-                  key={i.key}
-                  helperText={<ErrorMessage name={i.key} component="div" />}
-                  label={i.expr && <InlineMath math={i.expr} />}
-                  labelFor={i.key}
-                >
+                <FormControl id={i.key} key={i.key}>
+                  {i.expr && (
+                    <FormLabel>
+                      <InlineMath math={i.expr} />
+                    </FormLabel>
+                  )}
                   <Field
-                    large={true}
-                    intent={Intent.PRIMARY}
+                    size="lg"
                     id={i.key}
                     name={i.key}
                     as={type(i).as}
-                    fill={true}
                     type={type(i).domType}
                   />
-                </FormGroup>
+                  <ErrorMessage name={i.key} component={FormHelperText} />
+                </FormControl>
               );
             })}
             <Button
+              mt={4}
+              colorScheme="teal"
+              size="lg"
               type="submit"
               disabled={isSubmitting}
-              intent={Intent.PRIMARY}
             >
               Надіслати
             </Button>
           </Form>
         )}
       </Formik>
-    </Card>
+    </Box>
   );
 };
 

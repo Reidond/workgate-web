@@ -1,16 +1,12 @@
-import "normalize.css/normalize.css";
-import "@blueprintjs/core/lib/css/blueprint.css";
-import "@blueprintjs/icons/lib/css/blueprint-icons.css";
-import "@blueprintjs/select/lib/css/blueprint-select.css";
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
-import NavBar from "../components/Navbar";
+import NavBar from "../src/components/NavBar2";
+import { ChakraProvider, Container } from "@chakra-ui/react";
 import "katex/dist/katex.min.css";
-import "../styles/globals.css";
+import "../src/styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <div className={styles.container}>
+    <ChakraProvider>
       <Head>
         <title>Workgate</title>
         <link rel="icon" href="/favicon.svg" />
@@ -37,10 +33,14 @@ function MyApp({ Component, pageProps }) {
 
       <NavBar />
 
-      <main className="container-fluid">
+      <main
+        style={{
+          marginTop: "1rem",
+        }}
+      >
         <Component {...pageProps} />
       </main>
-    </div>
+    </ChakraProvider>
   );
 }
 
