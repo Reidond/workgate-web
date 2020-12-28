@@ -2,10 +2,11 @@ import {
   functions,
   MyFunctionDefault,
 } from "../../src/helpers/functionsConfig";
-import { FunctionComponent, ReactElement, useState } from "react";
+import {FunctionComponent, ReactElement, useEffect, useState} from "react";
 import { InputArray } from "../../src/components/InputArray";
 import PreviewPanel from "../../src/components/PreviewPanel";
 import { Grid, Container, Skeleton } from "@chakra-ui/react";
+import useRouteChanged from "../../src/hooks/use-route-changed";
 
 interface PreviewPanelSkeletonProps {
   loading: boolean;
@@ -18,7 +19,7 @@ const PreviewPanelSkeleton: FunctionComponent<PreviewPanelSkeletonProps> = ({
   if (loading) {
     return (
       <Skeleton>
-        <div style={{ height: "430px" }}></div>
+        <div style={{height: "430px"}}/>
       </Skeleton>
     );
   }
@@ -31,13 +32,22 @@ interface FuncProps {
 const Func: FunctionComponent<FuncProps> = ({ func }) => {
   let [preview, setPreview] = useState(null);
   let [loading, setLoading] = useState(false);
+  let [inputs, setInputs] = useState(func.inputs);
+
+  useRouteChanged(() => {
+    setPreview(null);
+  })
+
+  useEffect(() => {
+    setInputs(func.inputs)
+  }, [func.inputs])
 
   return (
     <Container maxW="100%">
       <Grid templateColumns="repeat(2, 1fr)" gap={6}>
         <InputArray
           endpoint={func.endpoint}
-          inputs={func.inputs}
+          inputs={inputs}
           setPreview={setPreview}
           setLoading={setLoading}
         />

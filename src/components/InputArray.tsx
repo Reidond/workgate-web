@@ -1,4 +1,4 @@
-import { ComponentType, Dispatch, FunctionComponent } from "react";
+import {ComponentType, Dispatch, FunctionComponent, useEffect, useState} from "react";
 import { InputDefault } from "../helpers/functionsConfig";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
@@ -11,24 +11,7 @@ import {
   FormControl,
   FormLabel,
   FormHelperText,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
 } from "@chakra-ui/react";
-
-const InputGroup = (props) => {
-  return (
-    <NumberInput {...props}>
-      <NumberInputField />
-      <NumberInputStepper>
-        <NumberIncrementStepper />
-        <NumberDecrementStepper />
-      </NumberInputStepper>
-    </NumberInput>
-  );
-};
 
 interface InputArrayDOMType {
   domType: string;
@@ -39,7 +22,7 @@ const type = (input: InputDefault): InputArrayDOMType => {
   if (typeof input.default === "number") {
     return {
       domType: "number",
-      as: InputGroup,
+      as: Input,
       validation: Yup.number().required(),
     };
   }
@@ -57,6 +40,27 @@ const type = (input: InputDefault): InputArrayDOMType => {
   };
 };
 
+const createInitialValues = (inputs) => {
+  return inputs.reduce((acc, cur) => {
+    acc[cur.key] = cur.default;
+    return acc;
+  }, {});
+}
+
+const createShape = (inputs) => {
+  return (inputs as Record<
+      string,
+      any
+      >).reduce((acc, cur) => {
+    acc[cur.key] = type(cur).validation;
+    return acc;
+  }, {});
+}
+
+const createSchema = (shape) => {
+  return Yup.object().shape(shape);
+}
+
 interface InputArrayProps {
   inputs: InputDefault[];
   endpoint: string;
@@ -69,18 +73,22 @@ const InputArray: FunctionComponent<InputArrayProps> = ({
   setPreview,
   setLoading,
 }) => {
-  const initialValues = inputs.reduce((acc, cur) => {
-    acc[cur.key] = cur.default;
-    return acc;
-  }, {});
-  const shape: Record<string, Yup.AnySchema<any, any, any>> = (inputs as Record<
-    string,
-    any
-  >).reduce((acc, cur) => {
-    acc[cur.key] = type(cur).validation;
-    return acc;
-  }, {});
-  const schema = Yup.object().shape(shape);
+  const [initialValues, setInitialValues] = useState(() => createInitialValues(inputs));
+  const [shape, setShape] = useState(() => createShape(inputs));
+  const [schema, setSchema] = useState(() => createSchema(shape));
+
+  useEffect(() => {
+    setInitialValues(createInitialValues(inputs))
+  }, [inputs])
+
+  useEffect(() => {
+    setShape(createShape(inputs))
+  }, [inputs])
+
+  useEffect(() => {
+    const schema = Yup.object().shape(shape);
+    setSchema(createSchema(shape))
+  }, [shape])
 
   return (
     <Box
@@ -93,6 +101,7 @@ const InputArray: FunctionComponent<InputArrayProps> = ({
       }}
     >
       <Formik
+          enableReinitialize={true}
         initialValues={initialValues}
         validationSchema={schema}
         onSubmit={(values, { setSubmitting }) => {

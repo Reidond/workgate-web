@@ -44,4 +44,26 @@ export const functions: MyFunctionDefault[] = [
       },
     ],
   },
+  {
+    name: "gaussmf",
+    prettyName: "Гаусова функція належності",
+    endpoint: functionsApi`/${"name"}`,
+    inputs: [
+      {
+        expr: "\\overline{x}",
+        key: "x",
+        default: "0:10",
+      },
+      {
+        expr: "a_j",
+        key: "a",
+        default: 2,
+      },
+      {
+        expr: "b_j",
+        key: "b",
+        default: 5,
+      },
+    ],
+  },
 ];
