@@ -1,4 +1,10 @@
-import {ComponentType, Dispatch, FunctionComponent, useEffect, useState} from "react";
+import {
+  ComponentType,
+  Dispatch,
+  FunctionComponent,
+  useEffect,
+  useState,
+} from "react";
 import { InputDefault } from "../helpers/functionsConfig";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
@@ -40,26 +46,23 @@ const type = (input: InputDefault): InputArrayDOMType => {
   };
 };
 
-const createInitialValues = (inputs) => {
+export const createInitialValues = (inputs) => {
   return inputs.reduce((acc, cur) => {
     acc[cur.key] = cur.default;
     return acc;
   }, {});
-}
+};
 
 const createShape = (inputs) => {
-  return (inputs as Record<
-      string,
-      any
-      >).reduce((acc, cur) => {
+  return (inputs as Record<string, any>).reduce((acc, cur) => {
     acc[cur.key] = type(cur).validation;
     return acc;
   }, {});
-}
+};
 
 const createSchema = (shape) => {
   return Yup.object().shape(shape);
-}
+};
 
 interface InputArrayProps {
   inputs: InputDefault[];
@@ -73,82 +76,74 @@ const InputArray: FunctionComponent<InputArrayProps> = ({
   setPreview,
   setLoading,
 }) => {
-  const [initialValues, setInitialValues] = useState(() => createInitialValues(inputs));
+  const [initialValues, setInitialValues] = useState(() =>
+    createInitialValues(inputs)
+  );
   const [shape, setShape] = useState(() => createShape(inputs));
   const [schema, setSchema] = useState(() => createSchema(shape));
 
   useEffect(() => {
-    setInitialValues(createInitialValues(inputs))
-  }, [inputs])
+    setInitialValues(createInitialValues(inputs));
+  }, [inputs]);
 
   useEffect(() => {
-    setShape(createShape(inputs))
-  }, [inputs])
+    setShape(createShape(inputs));
+  }, [inputs]);
 
   useEffect(() => {
     const schema = Yup.object().shape(shape);
-    setSchema(createSchema(shape))
-  }, [shape])
+    setSchema(createSchema(shape));
+  }, [shape]);
 
   return (
-    <Box
-      padding="6"
-      boxShadow="lg"
-      borderWidth="1px"
-      borderRadius="lg"
-      style={{
-        height: "max-content",
+    <Formik
+      enableReinitialize={true}
+      initialValues={initialValues}
+      validationSchema={schema}
+      onSubmit={(values, { setSubmitting }) => {
+        setLoading(true);
+        axios
+          .post(endpoint, values)
+          .then(({ data }) => setPreview(data))
+          .finally(() => {
+            setSubmitting(false);
+            setLoading(false);
+          });
       }}
     >
-      <Formik
-          enableReinitialize={true}
-        initialValues={initialValues}
-        validationSchema={schema}
-        onSubmit={(values, { setSubmitting }) => {
-          setLoading(true);
-          axios
-            .post(endpoint, values)
-            .then(({ data }) => setPreview(data))
-            .finally(() => {
-              setSubmitting(false);
-              setLoading(false);
-            });
-        }}
-      >
-        {({ isSubmitting }) => (
-          <Form>
-            {inputs.map((i) => {
-              return (
-                <FormControl id={i.key} key={i.key}>
-                  {i.expr && (
-                    <FormLabel>
-                      <InlineMath math={i.expr} />
-                    </FormLabel>
-                  )}
-                  <Field
-                    size="lg"
-                    id={i.key}
-                    name={i.key}
-                    as={type(i).as}
-                    type={type(i).domType}
-                  />
-                  <ErrorMessage name={i.key} component={FormHelperText} />
-                </FormControl>
-              );
-            })}
-            <Button
-              mt={4}
-              colorScheme="teal"
-              size="lg"
-              type="submit"
-              disabled={isSubmitting}
-            >
-              Надіслати
-            </Button>
-          </Form>
-        )}
-      </Formik>
-    </Box>
+      {({ isSubmitting }) => (
+        <Form>
+          {inputs.map((i) => {
+            return (
+              <FormControl id={i.key} key={i.key}>
+                {i.expr && (
+                  <FormLabel>
+                    <InlineMath math={i.expr} />
+                  </FormLabel>
+                )}
+                <Field
+                  size="lg"
+                  id={i.key}
+                  name={i.key}
+                  as={type(i).as}
+                  type={type(i).domType}
+                />
+                <ErrorMessage name={i.key} component={FormHelperText} />
+              </FormControl>
+            );
+          })}
+          <Button
+            mt={4}
+            colorScheme="teal"
+            size="lg"
+            type="submit"
+            disabled={isSubmitting}
+          >
+            Надіслати
+          </Button>
+        </Form>
+      )}
+    </Formik>
   );
 };
 

@@ -1,30 +1,16 @@
 import {
   functions,
-  MyFunctionDefault,
+  MyFunctionDefaultStatic,
 } from "../../src/helpers/functionsConfig";
-import {FunctionComponent, ReactElement, useEffect, useState} from "react";
-import { InputArray } from "../../src/components/InputArray";
+import { FunctionComponent, useEffect, useState } from "react";
+import {
+  createInitialValues,
+  InputArray,
+} from "../../src/components/InputArray";
 import PreviewPanel from "../../src/components/PreviewPanel";
 import { Grid, Container, Skeleton } from "@chakra-ui/react";
 import useRouteChanged from "../../src/hooks/use-route-changed";
-
-interface PreviewPanelSkeletonProps {
-  loading: boolean;
-  content: ReactElement;
-}
-const PreviewPanelSkeleton: FunctionComponent<PreviewPanelSkeletonProps> = ({
-  loading,
-  content,
-}) => {
-  if (loading) {
-    return (
-      <Skeleton>
-        <div style={{height: "430px"}}/>
-      </Skeleton>
-    );
-  }
-  return content;
-};
+import Card from "../../src/components/Card";
 
 interface FuncProps {
   func: MyFunctionDefaultStatic;
@@ -36,38 +22,33 @@ const Func: FunctionComponent<FuncProps> = ({ func }) => {
 
   useRouteChanged(() => {
     setPreview(null);
-  })
+  });
 
   useEffect(() => {
-    setInputs(func.inputs)
-  }, [func.inputs])
+    setInputs(func.inputs);
+  }, [func.inputs]);
 
   return (
     <Container maxW="100%">
       <Grid templateColumns="repeat(2, 1fr)" gap={6}>
-        <InputArray
-          endpoint={func.endpoint}
-          inputs={inputs}
-          setPreview={setPreview}
-          setLoading={setLoading}
-        />
-        {preview && (
-          <PreviewPanelSkeleton
-            loading={loading}
-            content={<PreviewPanel preview={preview} name={func.name} />}
+        <Card>
+          <InputArray
+            endpoint={func.endpoint}
+            inputs={inputs}
+            setPreview={setPreview}
+            setLoading={setLoading}
           />
-        )}
+        </Card>
+        <PreviewPanel loading={loading} preview={preview} func={func} />
       </Grid>
     </Container>
   );
 };
 
-interface MyFunctionDefaultStatic extends Omit<MyFunctionDefault, "endpoint"> {
-  endpoint: string;
-}
 // This also gets called at build time
 export async function getStaticProps({ params }) {
   const func = functions.find((f) => f.name === params.name);
+  const endpoint = func.endpoint.call(null, { name: params.name });
 
   // Pass func data to the page via props
   return {
@@ -75,6 +56,9 @@ export async function getStaticProps({ params }) {
       func: {
         ...func,
         endpoint: func.endpoint.call(null, { name: params.name }),
+        preview: `${endpoint}/image?${new URLSearchParams(
+          createInitialValues(func.inputs)
+        ).toString()}`,
       },
     },
   };

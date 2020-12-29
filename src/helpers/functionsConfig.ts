@@ -15,6 +15,11 @@ interface MyFunction<T, E> {
 
 export type MyFunctionDefault = MyFunction<String | Number, string>;
 export type InputDefault = Input<String | Number>;
+export interface MyFunctionDefaultStatic
+  extends Omit<MyFunctionDefault, "endpoint"> {
+  endpoint: string;
+  preview: string;
+}
 
 export const functions: MyFunctionDefault[] = [
   {
@@ -63,6 +68,28 @@ export const functions: MyFunctionDefault[] = [
         expr: "b_j",
         key: "b",
         default: 5,
+      },
+    ],
+  },
+  {
+    name: "sigmf",
+    prettyName: "Узагальнена сигмоїдальна функція належності ",
+    endpoint: functionsApi`/${"name"}`,
+    inputs: [
+      {
+        expr: "\\overline{x}",
+        key: "x",
+        default: "0:10",
+      },
+      {
+        expr: "a_j",
+        key: "a",
+        default: 2,
+      },
+      {
+        expr: "b_j",
+        key: "b",
+        default: 4,
       },
     ],
   },

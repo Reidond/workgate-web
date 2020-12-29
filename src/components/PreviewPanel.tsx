@@ -1,28 +1,70 @@
-import {FunctionComponent, memo, useEffect} from "react";
+// @refresh reset
+
+import { FunctionComponent, memo, ReactElement, useEffect } from "react";
 import equal from "fast-deep-equal/es6/react";
-import { Box } from "@chakra-ui/react";
-import {nanoid} from "nanoid";
+import { Box, Skeleton } from "@chakra-ui/react";
+import { MyFunctionDefaultStatic } from "../helpers/functionsConfig";
+import PreviewImage from "./PreviewImage";
+
+interface PreviewPanelSkeletonProps {
+  loading: boolean;
+  content: ReactElement;
+}
+const PreviewPanelSkeleton: FunctionComponent<PreviewPanelSkeletonProps> = ({
+  loading,
+  content,
+}) => {
+  if (loading) {
+    return (
+      <Skeleton>
+        <div style={{ height: "430px" }} />
+      </Skeleton>
+    );
+  }
+  return content;
+};
 
 interface PreviewPanelProps {
-  name: string;
-  preview: any;
+  func: MyFunctionDefaultStatic;
+  preview: any | null;
+  loading: boolean;
 }
 const PreviewPanel: FunctionComponent<PreviewPanelProps> = ({
-  name,
+  func,
   preview,
+  loading,
 }) => {
-  const id = `id${nanoid()}`;
   useEffect(() => {
-    (window as any).Bokeh.embed.embed_item(preview, id);
-  }, [])
+    preview && (window as any).Bokeh.embed.embed_item(preview, func.name);
+  }, [preview, func.name]);
+
+  if (!preview) {
+    return (
+      <Box
+        style={{ height: "max-content" }}
+        padding="6"
+        boxShadow="lg"
+        borderWidth="1px"
+        borderRadius="lg"
+      >
+        <PreviewImage func={func} />
+      </Box>
+    );
+  }
+
   return (
-    <Box
-      style={{height: "max-content"}}
-      padding="6"
-      boxShadow="lg"
-      borderWidth="1px"
-      borderRadius="lg"
-      id={id}
+    <PreviewPanelSkeleton
+      loading={loading}
+      content={
+        <Box
+          style={{ height: "max-content" }}
+          padding="6"
+          boxShadow="lg"
+          borderWidth="1px"
+          borderRadius="lg"
+          id={func.name}
+        />
+      }
     />
   );
 };
