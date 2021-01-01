@@ -5,8 +5,10 @@ import {
   CloseButton,
   Flex,
   HStack,
+  Icon,
   IconButton,
   IconButtonProps,
+  Link,
   useColorModeValue,
   useUpdateEffect,
 } from "@chakra-ui/react";
@@ -17,6 +19,8 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { RemoveScroll } from "react-remove-scroll";
+import { FunctionsSelect } from "./FunctionsSelect";
+import { GithubIcon } from "./NavBar2";
 
 function NavLink({ href, children }) {
   const { pathname } = useRouter();
@@ -96,15 +100,24 @@ export function MobileNavContent(props: MobileNavContentProps) {
                 <Flex justify="space-between" px="6" pt="5" pb="4">
                   <HStack spacing="5">
                     <CloseButton ref={closeBtnRef} onClick={onClose} />
+                    <Link
+                      isExternal
+                      aria-label="Go to Chakra UI GitHub page"
+                      href="https://github.com/Reidond/workgate-web"
+                    >
+                      <Icon
+                        as={GithubIcon}
+                        transition="color 0.2s"
+                        w="5"
+                        h="5"
+                        _hover={{ color: "gray.600" }}
+                      />
+                    </Link>
                   </HStack>
                 </Flex>
                 <Box px="6" pb="6" pt="2" shadow={shadow}>
                   <HStack>
-                    <NavLink href="/docs/getting-started">Docs</NavLink>
-                    <NavLink href="/guides/integrations/with-cra">
-                      Guides
-                    </NavLink>
-                    <NavLink href="/team">Team</NavLink>
+                    <FunctionsSelect />
                   </HStack>
                 </Box>
               </Box>

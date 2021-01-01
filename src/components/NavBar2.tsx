@@ -16,10 +16,8 @@ import { useEffect, useRef, useState } from "react";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { MobileNavContent, MobileNavButton } from "./MobileNav";
 import { FunctionsSelect } from "./FunctionsSelect";
-import { useRouter } from "next/router";
-import { functions } from "../helpers/functionsConfig";
 
-const GithubIcon = (props) => (
+export const GithubIcon = (props) => (
   <svg viewBox="0 0 20 20" {...props}>
     <path
       fill="currentColor"
@@ -68,7 +66,13 @@ function HeaderContent() {
           </NextLink>
         </Flex>
 
-        <Flex w="100%" maxW="824px" align="center">
+        <Flex
+          w="100%"
+          maxW="400px"
+          align="center"
+          className="functions-select"
+          display={{ base: "none", md: "flex" }}
+        >
           <FunctionsSelect />
         </Flex>
 

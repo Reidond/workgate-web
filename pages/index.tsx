@@ -1,4 +1,4 @@
-import { Wrap, WrapItem, Container } from "@chakra-ui/react";
+import { Wrap, WrapItem, Container, Center } from "@chakra-ui/react";
 import HomeCard from "../src/components/HomeCard";
 import { createInitialValues } from "../src/components/InputArray";
 import {
@@ -10,13 +10,15 @@ import {
 export default function Home({ staticFunctions }) {
   return (
     <Container maxW="100%">
-      <Wrap spacing="1rem">
-        {staticFunctions.map((f: MyFunctionDefaultStatic) => (
-          <WrapItem key={f.name}>
-            <HomeCard func={f} />
-          </WrapItem>
-        ))}
-      </Wrap>
+      <Center>
+        <Wrap>
+          {staticFunctions.map((f: MyFunctionDefaultStatic) => (
+            <WrapItem key={f.name}>
+              <HomeCard func={f} />
+            </WrapItem>
+          ))}
+        </Wrap>
+      </Center>
     </Container>
   );
 }
