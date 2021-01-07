@@ -73,7 +73,7 @@ export const functions: MyFunctionDefault[] = [
   },
   {
     name: "sigmf",
-    prettyName: "Узагальнена сигмоїдальна функція належності ",
+    prettyName: "Узагальнена сигмоїдальна функція належності",
     endpoint: functionsApi`/${"name"}`,
     inputs: [
       {
@@ -89,6 +89,28 @@ export const functions: MyFunctionDefault[] = [
       {
         expr: "b_j",
         key: "b",
+        default: 4,
+      },
+    ],
+  },
+  {
+    name: "hbmf",
+    prettyName: "Гіперболоїдна функція належності",
+    endpoint: functionsApi`/${"name"}`,
+    inputs: [
+      {
+        expr: "\\overline{x}",
+        key: "x",
+        default: "0:10",
+      },
+      {
+        expr: "x^0_j",
+        key: "x0",
+        default: 2,
+      },
+      {
+        expr: "a_j",
+        key: "a",
         default: 4,
       },
     ],
