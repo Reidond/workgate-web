@@ -95,4 +95,26 @@ export const functions: MyFunctionDefault[] = [
       },
     ],
   },
+  {
+    name: "epmf",
+    prettyName: "Еліпсоїдна функція належності",
+    endpoint: functionsApi`/${"name"}`,
+    inputs: [
+      {
+        expr: "\\overline{x}",
+        key: "x",
+        default: "0:10",
+      },
+      {
+        expr: "x^0_j",
+        key: "x0",
+        default: 2,
+      },
+      {
+        expr: "a_j",
+        key: "a",
+        default: 4,
+      },
+    ],
+  },
 ];
