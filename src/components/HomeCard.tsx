@@ -1,6 +1,6 @@
 import { Badge, Box } from "@chakra-ui/react";
 import { FunctionComponent } from "react";
-import { MyFunctionDefaultStatic } from "../helpers/functionsConfig";
+import { MyFunctionDefaultStatic } from "../helpers/functionsType";
 import Link from "next/link";
 import PreviewImage from "./PreviewImage";
 

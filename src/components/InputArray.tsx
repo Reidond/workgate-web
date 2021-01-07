@@ -5,7 +5,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { InputDefault } from "../helpers/functionsConfig";
+import { InputDefault } from "../helpers/functionsType";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";

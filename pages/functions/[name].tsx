@@ -1,7 +1,4 @@
-import {
-  functions,
-  MyFunctionDefaultStatic,
-} from "../../src/helpers/functionsConfig";
+import { MyFunctionDefaultStatic } from "../../src/helpers/functionsType";
 import { FunctionComponent, useEffect, useState } from "react";
 import {
   createInitialValues,
@@ -11,6 +8,7 @@ import PreviewPanel from "../../src/components/PreviewPanel";
 import { Grid, Container, Skeleton } from "@chakra-ui/react";
 import useRouteChanged from "../../src/hooks/use-route-changed";
 import Card from "../../src/components/Card";
+import { functions } from "../../config";
 
 interface FuncProps {
   func: MyFunctionDefaultStatic;

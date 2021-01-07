@@ -1,6 +1,6 @@
 import { Skeleton } from "@chakra-ui/react";
 import * as React from "react";
-import { MyFunctionDefaultStatic } from "../helpers/functionsConfig";
+import { MyFunctionDefaultStatic } from "../helpers/functionsType";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Skeletor: React.FunctionComponent = (props) => {

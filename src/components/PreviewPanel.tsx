@@ -3,7 +3,7 @@
 import { FunctionComponent, memo, ReactElement, useEffect } from "react";
 import equal from "fast-deep-equal/es6/react";
 import { Box, Skeleton } from "@chakra-ui/react";
-import { MyFunctionDefaultStatic } from "../helpers/functionsConfig";
+import { MyFunctionDefaultStatic } from "../helpers/functionsType";
 import PreviewImage from "./PreviewImage";
 
 interface PreviewPanelSkeletonProps {
