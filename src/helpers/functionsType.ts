@@ -1,5 +1,3 @@
-import { functionsApi } from "./functionsApi";
-
 interface Input<T> {
   expr?: string;
   key: string;
