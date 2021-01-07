@@ -30,7 +30,10 @@ const Func: FunctionComponent<FuncProps> = ({ func }) => {
 
   return (
     <Container maxW="100%">
-      <Grid templateColumns="repeat(2, 1fr)" gap={6}>
+      <Grid
+        templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
+        gap={6}
+      >
         <Card>
           <InputArray
             endpoint={func.endpoint}
