@@ -139,4 +139,63 @@ export const functions: MyFunctionDefault[] = [
       },
     ],
   },
+  {
+    name: "trapmf",
+    prettyName: "Трапецієподібно-пірамідальна функція належності",
+    endpoint: functionsApi`/${"name"}`,
+    inputs: [
+      {
+        expr: "\\overline{x}",
+        key: "x",
+        default: "0:10",
+      },
+      {
+        expr: "a",
+        key: "a",
+        default: 2,
+      },
+      {
+        expr: "b",
+        key: "b",
+        default: 4,
+      },
+      {
+        expr: "c",
+        key: "c",
+        default: 6,
+      },
+      {
+        expr: "d",
+        key: "d",
+        default: 8,
+      },
+    ],
+  },
+  {
+    name: "trimf",
+    prettyName: "Пірамідальна функція належності",
+    endpoint: functionsApi`/${"name"}`,
+    inputs: [
+      {
+        expr: "\\overline{x}",
+        key: "x",
+        default: "0:10",
+      },
+      {
+        expr: "a",
+        key: "a",
+        default: 2,
+      },
+      {
+        expr: "b",
+        key: "b",
+        default: 4,
+      },
+      {
+        expr: "c",
+        key: "c",
+        default: 6,
+      },
+    ],
+  },
 ];
