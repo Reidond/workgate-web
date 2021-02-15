@@ -1,4 +1,5 @@
-module.exports = {
-  // Target must be serverless
+const withWorkers = require("@zeit/next-workers");
+
+module.exports = withWorkers({
   target: "serverless",
-};
+});
