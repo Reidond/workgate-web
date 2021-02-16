@@ -1,7 +1,5 @@
 const baseURL =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:3001"
-    : "https://workgate-service.herokuapp.com";
+  process.env.BASE_URL || "https://workgate-service.herokuapp.com";
 
 const createWithHost = (host: string) => (
   strings: TemplateStringsArray,

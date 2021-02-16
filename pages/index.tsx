@@ -1,11 +1,11 @@
 import { SimpleGrid, Container, Center } from "@chakra-ui/react";
 import { functions } from "../config";
-import HomeCard from "../src/components/HomeCard";
-import { createInitialValues } from "../src/components/InputArray";
+import HomeCard from "../components/HomeCard";
+import { createInitialValues } from "../components/InputArray";
 import {
   MyFunctionDefault,
   MyFunctionDefaultStatic,
-} from "../src/helpers/functionsType";
+} from "../helpers/functionsType";
 
 export default function Home({ staticFunctions }) {
   return (

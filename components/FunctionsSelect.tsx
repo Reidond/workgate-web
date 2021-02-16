@@ -1,7 +1,7 @@
 import { FunctionComponent, useState } from "react";
 import { useRouter } from "next/router";
 import { Select } from "@chakra-ui/react";
-import { functions } from "../../config";
+import { functions } from "../config";
 
 interface FunctionsSelectProps {}
 const FunctionsSelect: FunctionComponent<FunctionsSelectProps> = (props) => {

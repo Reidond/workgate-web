@@ -1,5 +1,5 @@
 import Head from "next/head";
-import NavBar from "../src/components/NavBar2";
+import NavBar from "../components/NavBar2";
 import { ChakraProvider, Container } from "@chakra-ui/react";
 import "katex/dist/katex.min.css";
 import "../src/styles/globals.css";
